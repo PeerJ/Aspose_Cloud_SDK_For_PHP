@@ -23,17 +23,20 @@ class Converter {
 
     /**
      * Convert a document to SaveFormat using Aspose storage.
-     * 
+     *
      * @return string Returns the file path.
      * @throws Exception
      */
-    public function convert() {
+    public function convert($folder = null) {
         //check whether file is set or not
         if ($this->fileName == '')
             throw new Exception('No file name specified');
 
         //build URI
         $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '?format=' . $this->saveFormat;
+        if ($folder) {
+            $strURI = $strURI . "&folder=" . urlencode($folder);
+        }
 
         //sign URI
         $signedURI = Utils::sign($strURI);
