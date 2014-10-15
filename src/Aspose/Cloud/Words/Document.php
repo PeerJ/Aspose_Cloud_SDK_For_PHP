@@ -941,5 +941,25 @@ class Document {
 
     }
 
+    /*
+     * deletes headers & footers from document
+     *
+     * @return boolean
+     * @throws Exception
+     */
+    public function deleteHeadersFooters(){
+        if ($this->fileName == '') {
+            throw new Exception('Base file not specified');
+        }
+
+        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/headersFooters';
+        $signedURI = Utils::sign($strURI);
+
+        $responseStream = Utils::processCommand($signedURI, 'DELETE', '');
+
+        $json = json_decode($responseStream);
+
+        return ($json->Code == 200);
+    }
 
 }
