@@ -63,6 +63,7 @@ class Document {
 
         //build URI to merge Docs
         $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/revisions/rejectAll';
+        $strURI = $this->addFolderParamIfPresent($strURI);
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -92,6 +93,7 @@ class Document {
 
         //build URI to merge Docs
         $strURI = Product::$baseProductUri . '/words/' . $this->fileName . '/revisions/acceptAll';
+        $strURI = $this->addFolderParamIfPresent($strURI);
 
         //sign URI
         $signedURI = Utils::sign($strURI);
@@ -593,8 +595,15 @@ class Document {
         if ($options_xml == '')
             throw new Exception('Options not specified.');
 
-        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/saveAs';
+<<<<<<< HEAD
+        if ($inputPath == '')
+            throw new Exception('No file name specified');
+
+        $strURI = Product::$baseProductUri . '/words/'.$inputPath.'/saveAs';
         $strURI = $this->addFolderParamIfPresent($strURI);
+=======
+        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/saveAs';
+>>>>>>> refactor method params to use fileName instance var
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'POST', 'XML', $options_xml,'json');
@@ -639,8 +648,12 @@ class Document {
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
 
-        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/sections';
+<<<<<<< HEAD
+        $strURI = Product::$baseProductUri . '/words/'.$filename.'/sections';
         $strURI = $this->addFolderParamIfPresent($strURI);
+=======
+        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/sections';
+>>>>>>> refactor method params to use fileName instance var
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'GET','');
@@ -651,33 +664,6 @@ class Document {
         else
             return false;
 
-    }
-
-
-    /*
-     * get a list of all sections present in a Word document.
-     *
-
-     * @return Array of all sections ids.
-     * @throws Exception
-     */
-
-    public function getAllSectionsAsIds()
-    {
-        if ($this->fileName == '') {
-            throw new Exception('Base file not specified');
-        }
-        
-        $sections = array();
-        if ($sectionsList = $this->getAllSections()) {
-            foreach($sectionsList as $sectionList) {
-                $href = $sectionList->link->Href;
-                $hrefItems = explode('/', $href);
-                $sections[] = $hrefItems[count($hrefItems) - 1];
-            }
-        }
-
-        return $sections;
     }
 
     /*
@@ -698,8 +684,12 @@ class Document {
         if ($sectionid == '')
             throw new Exception('No Section Id specified');
 
-        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/sections/'.$sectionid.'';
+<<<<<<< HEAD
+        $strURI = Product::$baseProductUri . '/words/'.$filename.'/sections/'.$sectionid.'';
         $strURI = $this->addFolderParamIfPresent($strURI);
+=======
+        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/sections/'.$sectionid.'';
+>>>>>>> refactor method params to use fileName instance var
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'GET','');
@@ -731,8 +721,12 @@ class Document {
         if ($sectionid == '')
             throw new Exception('No Section Id specified');
 
-        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/sections/'.$sectionid.'/pageSetup';
+<<<<<<< HEAD
+        $strURI = Product::$baseProductUri . '/words/'.$filename.'/sections/'.$sectionid.'/pageSetup';
         $strURI = $this->addFolderParamIfPresent($strURI);
+=======
+        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/sections/'.$sectionid.'/pageSetup';
+>>>>>>> refactor method params to use fileName instance var
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'GET','');
@@ -763,8 +757,12 @@ class Document {
         if ($sectionid == '')
             throw new Exception('No Section Id specified');
 
-        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/sections/'.$sectionid.'/pageSetup';
+<<<<<<< HEAD
+        $strURI = Product::$baseProductUri . '/words/'.$filename.'/sections/'.$sectionid.'/pageSetup';
         $strURI = $this->addFolderParamIfPresent($strURI);
+=======
+        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/sections/'.$sectionid.'/pageSetup';
+>>>>>>> refactor method params to use fileName instance var
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'POST', 'XML', $options_xml,'json');
@@ -793,8 +791,12 @@ class Document {
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
 
-        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/mailMergeFieldNames';
+<<<<<<< HEAD
+        $strURI = Product::$baseProductUri . '/words/'.$filename.'/mailMergeFieldNames';
         $strURI = $this->addFolderParamIfPresent($strURI);
+=======
+        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/mailMergeFieldNames';
+>>>>>>> refactor method params to use fileName instance var
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'GET','');
@@ -822,8 +824,12 @@ class Document {
         if ($this->fileName == '')
             throw new Exception('Base file not specified');
 
-        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/paragraphs';
+<<<<<<< HEAD
+        $strURI = Product::$baseProductUri . '/words/'.$filename.'/paragraphs';
         $strURI = $this->addFolderParamIfPresent($strURI);
+=======
+        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/paragraphs';
+>>>>>>> refactor method params to use fileName instance var
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'GET','');
@@ -855,8 +861,12 @@ class Document {
         if ($paragraphid == '')
             throw new Exception('No Paragraph Id specified');
 
-        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/paragraphs/'.$paragraphid.'';
+<<<<<<< HEAD
+        $strURI = Product::$baseProductUri . '/words/'.$filename.'/paragraphs/'.$paragraphid.'';
         $strURI = $this->addFolderParamIfPresent($strURI);
+=======
+        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/paragraphs/'.$paragraphid.'';
+>>>>>>> refactor method params to use fileName instance var
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'GET','');
@@ -892,8 +902,12 @@ class Document {
         if ($runid == '')
             throw new Exception('No Run Id specified');
 
-        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/paragraphs/'.$paragraphid.'/runs/'.$runid.'';
+<<<<<<< HEAD
+        $strURI = Product::$baseProductUri . '/words/'.$filename.'/paragraphs/'.$paragraphid.'/runs/'.$runid.'';
         $strURI = $this->addFolderParamIfPresent($strURI);
+=======
+        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/paragraphs/'.$paragraphid.'/runs/'.$runid.'';
+>>>>>>> refactor method params to use fileName instance var
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'GET','');
@@ -930,8 +944,12 @@ class Document {
         if ($runid == '')
             throw new Exception('No Run Id specified');
 
-        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/paragraphs/'.$paragraphid.'/runs/'.$runid.'/font';
+<<<<<<< HEAD
+        $strURI = Product::$baseProductUri . '/words/'.$filename.'/paragraphs/'.$paragraphid.'/runs/'.$runid.'/font';
         $strURI = $this->addFolderParamIfPresent($strURI);
+=======
+        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/paragraphs/'.$paragraphid.'/runs/'.$runid.'/font';
+>>>>>>> refactor method params to use fileName instance var
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'GET','');
@@ -971,8 +989,12 @@ class Document {
         if ($runid == '')
             throw new Exception('No Run Id specified');
 
-        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/paragraphs/'.$paragraphid.'/runs/'.$runid.'/font';
+<<<<<<< HEAD
+        $strURI = Product::$baseProductUri . '/words/'.$filename.'/paragraphs/'.$paragraphid.'/runs/'.$runid.'/font';
         $strURI = $this->addFolderParamIfPresent($strURI);
+=======
+        $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/paragraphs/'.$paragraphid.'/runs/'.$runid.'/font';
+>>>>>>> refactor method params to use fileName instance var
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'POST', 'XML', $options_xml,'json');
@@ -998,7 +1020,6 @@ class Document {
         }
 
         $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/headersFooters';
-        $strURI = $this->addFolderParamIfPresent($strURI);
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'DELETE', '');
