@@ -125,7 +125,7 @@ class DocumentTest extends PHPUnit_Framework_TestCase {
                 <TextCompression>Flate</TextCompression>
 	         </PdfSaveOptions>";
 
-        $result = $document->saveAs($xml_string,'MainDocument.docx');
+        $result = $document->saveAs($xml_string);
 
         $this->assertFileExists($result);
 
@@ -134,7 +134,7 @@ class DocumentTest extends PHPUnit_Framework_TestCase {
     public function testGetAllSections()
     {
         $document = new Document('MainDocument.docx');
-        $result = $document->getAllSections('MainDocument.docx');
+        $result = $document->getAllSections();
 
         $this->assertInstanceOf('stdClass',$result);
 
@@ -143,7 +143,7 @@ class DocumentTest extends PHPUnit_Framework_TestCase {
     public function testGetSection()
     {
         $document = new Document('MainDocument.docx');
-        $result = $document->getSection('MainDocument.docx','0');
+        $result = $document->getSection('0');
 
         $this->assertInstanceOf('stdClass',$result);
 
@@ -152,7 +152,7 @@ class DocumentTest extends PHPUnit_Framework_TestCase {
     public function testGetPageSetup()
     {
         $document = new Document('MainDocument.docx');
-        $result = $document->getPageSetup('MainDocument.docx','0');
+        $result = $document->getPageSetup('0');
 
         $this->assertInstanceOf('stdClass',$result);
 
@@ -162,7 +162,7 @@ class DocumentTest extends PHPUnit_Framework_TestCase {
     {
         $document = new Document('MainDocument.docx');
         $xml_string = '<PageSetup> <LeftMargin>99</LeftMargin> <Orientation>Landscape</Orientation> <PaperSize>A5</PaperSize> </PageSetup>';
-        $result = $document->updatePageSetup($xml_string,'MainDocument.docx','0');
+        $result = $document->updatePageSetup($xml_string,'0');
 
         $this->assertInstanceOf('stdClass',$result);
 
@@ -171,7 +171,7 @@ class DocumentTest extends PHPUnit_Framework_TestCase {
     public function testGetMailMergeFieldNames()
     {
         $document = new Document('MainDocument.docx');
-        $result = $document->getMailMergeFieldNames('MainDocument.docx');
+        $result = $document->getMailMergeFieldNames();
 
         $this->assertInstanceOf('stdClass',$result);
 
@@ -180,7 +180,7 @@ class DocumentTest extends PHPUnit_Framework_TestCase {
     public function testGetAllParagraphs()
     {
         $document = new Document('MainDocument.docx');
-        $result = $document->getAllParagraphs('MainDocument.docx');
+        $result = $document->getAllParagraphs();
 
         $this->assertInstanceOf('stdClass',$result);
 
@@ -189,7 +189,7 @@ class DocumentTest extends PHPUnit_Framework_TestCase {
     public function testGetParagraph()
     {
         $document = new Document('MainDocument.docx');
-        $result = $document->getParagraph('MainDocument.docx','1');
+        $result = $document->getParagraph('1');
 
         $this->assertInstanceOf('stdClass',$result);
 
@@ -198,7 +198,7 @@ class DocumentTest extends PHPUnit_Framework_TestCase {
     public function testGetParagraphRun()
     {
         $document = new Document('MainDocument.docx');
-        $result = $document->getParagraphRun('MainDocument.docx','1','1');
+        $result = $document->getParagraphRun('1','1');
 
         $this->assertInstanceOf('stdClass',$result);
 
@@ -207,7 +207,7 @@ class DocumentTest extends PHPUnit_Framework_TestCase {
     public function testGetParagraphRunFont()
     {
         $document = new Document('MainDocument.docx');
-        $result = $document->getParagraphRunFont('MainDocument.docx','1','1');
+        $result = $document->getParagraphRunFont('1','1');
 
         $this->assertInstanceOf('stdClass',$result);
 
@@ -217,7 +217,7 @@ class DocumentTest extends PHPUnit_Framework_TestCase {
     {
         $document = new Document('MainDocument.docx');
         $xml_string = '<Font><Name>Calibri</Name></Font>';
-        $result = $document->updateParagraphRunFont($xml_string,'MainDocument.docx','1','1');
+        $result = $document->updateParagraphRunFont($xml_string,'1','1');
 
         $this->assertInstanceOf('stdClass',$result);
 
