@@ -130,17 +130,21 @@ class Folder {
      * Deletes a folder from remote storage.
      *
      * @param string $folderName The name of folder.
+     * @param boolean $recursive Recursively delete the folder
      * 
      * @return boolean
      * @throws Exception
      */
-    public function deleteFolder($folderName) {
+    public function deleteFolder($folderName, $recursive = false) {
         //check whether folder is set or not
         if ($folderName == '')
             throw new Exception('No folder name specified');
 
         //build URI
         $strURI = $this->strURIFolder . $folderName;
+        if ($recursive) {
+            $strURI = $strURI . "?recursive=true";
+        }
 
         //sign URI
         $signedURI = Utils::sign($strURI);
