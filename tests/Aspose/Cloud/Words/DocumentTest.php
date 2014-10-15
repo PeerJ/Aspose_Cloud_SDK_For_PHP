@@ -112,5 +112,115 @@ class DocumentTest extends PHPUnit_Framework_TestCase {
         $document->splitDocument('', '', $format);
         $this->assertFileExists(getcwd(). '/Data/Output/MainDocument_page1.pdf');
     }
-    
-}    
+
+    public function testSaveAs()
+    {
+        $document = new Document('MainDocument.docx');
+        $xml_string = "
+             <PdfSaveOptions>
+	            <SaveFormat>pdf</SaveFormat>
+	            <FileName>OutputDocument.pdf</FileName>
+	            <ImageCompression>Jpeg</ImageCompression>
+	            <JpegQuality>70</JpegQuality>
+                <TextCompression>Flate</TextCompression>
+	         </PdfSaveOptions>";
+
+        $result = $document->saveAs($xml_string,'MainDocument.docx');
+
+        $this->assertTrue(true,$result);
+
+    }
+
+    public function testGetAllSections()
+    {
+        $document = new Document('MainDocument.docx');
+        $result = $document->getAllSections('MainDocument.docx');
+
+        $this->assertInstanceOf('stdClass',$result);
+
+    }
+
+    public function testGetSection()
+    {
+        $document = new Document('MainDocument.docx');
+        $result = $document->getSection('MainDocument.docx','0');
+
+        $this->assertInstanceOf('stdClass',$result);
+
+    }
+
+    public function testGetPageSetup()
+    {
+        $document = new Document('MainDocument.docx');
+        $result = $document->getPageSetup('MainDocument.docx','0');
+
+        $this->assertInstanceOf('stdClass',$result);
+
+    }
+
+    public function testUpdatePageSetup()
+    {
+        $document = new Document('MainDocument.docx');
+        $xml_string = '<PageSetup> <LeftMargin>99</LeftMargin> <Orientation>Landscape</Orientation> <PaperSize>A5</PaperSize> </PageSetup>';
+        $result = $document->updatePageSetup($xml_string,'MainDocument.docx','0');
+
+        $this->assertInstanceOf('stdClass',$result);
+
+    }
+
+    public function testGetMailMergeFieldNames()
+    {
+        $document = new Document('MainDocument.docx');
+        $result = $document->getMailMergeFieldNames('MainDocument.docx');
+
+        $this->assertInstanceOf('stdClass',$result);
+
+    }
+
+    public function testGetAllParagraphs()
+    {
+        $document = new Document('MainDocument.docx');
+        $result = $document->getAllParagraphs('MainDocument.docx');
+
+        $this->assertInstanceOf('stdClass',$result);
+
+    }
+
+    public function testGetParagraph()
+    {
+        $document = new Document('MainDocument.docx');
+        $result = $document->getParagraph('MainDocument.docx','1');
+
+        $this->assertInstanceOf('stdClass',$result);
+
+    }
+
+    public function testGetParagraphRun()
+    {
+        $document = new Document('MainDocument.docx');
+        $result = $document->getParagraphRun('MainDocument.docx','1','1');
+
+        $this->assertInstanceOf('stdClass',$result);
+
+    }
+
+    public function testGetParagraphRunFont()
+    {
+        $document = new Document('MainDocument.docx');
+        $result = $document->getParagraphRunFont('MainDocument.docx','1','1');
+
+        $this->assertInstanceOf('stdClass',$result);
+
+    }
+
+    public function testUpdateParagraphRunFont()
+    {
+        $document = new Document('MainDocument.docx');
+        $xml_string = '<Font><Name>Calibri</Name></Font>';
+        $result = $document->updateParagraphRunFont($xml_string,'MainDocument.docx','1','1');
+
+        $this->assertInstanceOf('stdClass',$result);
+
+    }
+
+}

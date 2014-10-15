@@ -87,7 +87,7 @@ class Utils {
      *
      *
      */
-    public static function processCommand($url, $method = 'GET', $headerType = 'XML', $src = '') {
+    public static function processCommand($url, $method = 'GET', $headerType = 'XML', $src = '', $returnType = 'xml') {
 
         $method = strtoupper($method);
         $headerType = strtoupper($headerType);
@@ -102,7 +102,7 @@ class Utils {
         }
         curl_setopt($session, CURLOPT_HEADER, false);
         if ($headerType == 'XML') {
-            curl_setopt($session, CURLOPT_HTTPHEADER, array('Accept: application/xml', 'Content-Type: application/xml'));
+            curl_setopt($session, CURLOPT_HTTPHEADER, array('Accept: application/'.$returnType.'', 'Content-Type: application/xml'));
         } else {
             curl_setopt($session, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
         }

@@ -562,4 +562,384 @@ class Document {
         else
             return $v_output;
     }
+
+    /*
+     * Save Document to different file formats.
+     *
+     * $param string $options_xml.
+     * @param string $inputPath.
+
+     * @return string Returns true, if file is saved on the specified output location.
+     * @throws Exception
+     */
+
+    public function saveAs($options_xml = '', $inputPath = '') {
+        //check whether file is set or not
+
+        if ($options_xml == '')
+            throw new Exception('Options not specified.');
+
+        if ($inputPath == '')
+            throw new Exception('No file name specified');
+
+        $strURI = Product::$baseProductUri . '/words/'.$inputPath.'/saveAs';
+        $signedURI = Utils::sign($strURI);
+
+        $responseStream = Utils::processCommand($signedURI, 'POST', 'XML', $options_xml,'json');
+
+        $json = json_decode($responseStream);
+
+        if ($json->Code == 200){
+            $outputFile = $json->SaveResult->DestDocument->Href;
+            $strURI = Product::$baseProductUri . '/storage/file/'.$outputFile.'';
+            $signedURI = Utils::sign($strURI);
+            $responseStream = Utils::processCommand($signedURI, 'GET');
+
+            $v_output = Utils::validateOutput($responseStream);
+
+            if ($v_output === '') {
+
+                $output =  AsposeApp::$outPutLocation . $outputFile;
+                Utils::saveFile($responseStream,$output);
+                return true;
+            }
+            else
+                return $v_output;
+
+        }
+        else {
+            return false;
+        }
+
+    }
+
+    /*
+     * get a list of all sections present in a Word document.
+     *
+     * $param string $filename.
+
+     * @return Object of all sections.
+     * @throws Exception
+     */
+
+    public function getAllSections($filename = ''){
+
+        if ($filename == '')
+            throw new Exception('No file name specified');
+
+        $strURI = Product::$baseProductUri . '/words/'.$filename.'/sections';
+        $signedURI = Utils::sign($strURI);
+
+        $responseStream = Utils::processCommand($signedURI, 'GET','');
+
+        $json = json_decode($responseStream);
+        if ($json->Code == 200)
+            return $json->Sections->SectionLinkList;
+        else
+            return false;
+
+    }
+
+    /*
+     * get specefic section present in a Word document.
+     *
+     * $param string $filename.
+     * $param string $sectionid.
+
+     * @return Object of specefic section.
+     * @throws Exception
+     */
+
+    public function getSection($filename = '',$sectionid = ''){
+
+        if ($filename == '')
+            throw new Exception('No file name specified');
+
+        if ($sectionid == '')
+            throw new Exception('No Section Id specified');
+
+        $strURI = Product::$baseProductUri . '/words/'.$filename.'/sections/'.$sectionid.'';
+        $signedURI = Utils::sign($strURI);
+
+        $responseStream = Utils::processCommand($signedURI, 'GET','');
+
+        $json = json_decode($responseStream);
+
+        if ($json->Code == 200)
+            return $json->Section;
+        else
+            return false;
+
+    }
+
+    /*
+     * get page setup information from any section of a Word document.
+     *
+     * $param string $filename.
+     * $param string $sectionid.
+
+     * @return Object of page setup information.
+     * @throws Exception
+     */
+
+    public function getPageSetup($filename = '',$sectionid = ''){
+
+        if ($filename == '')
+            throw new Exception('No file name specified');
+
+        if ($sectionid == '')
+            throw new Exception('No Section Id specified');
+
+        $strURI = Product::$baseProductUri . '/words/'.$filename.'/sections/'.$sectionid.'/pageSetup';
+        $signedURI = Utils::sign($strURI);
+
+        $responseStream = Utils::processCommand($signedURI, 'GET','');
+
+        $json = json_decode($responseStream);
+
+        if ($json->Code == 200)
+            return $json->PageSetup;
+        else
+            return false;
+
+    }
+
+    /*
+     * update page setup information from any section of a Word document.
+     *
+     * $param string $filename.
+     * $param string $sectionid.
+
+     * @return Object of page setup information.
+     * @throws Exception
+     */
+
+    public function updatePageSetup($options_xml = '',$filename = '',$sectionid = ''){
+
+        if ($options_xml == '')
+            throw new Exception('No Options specified');
+
+        if ($filename == '')
+            throw new Exception('No file name specified');
+
+        if ($sectionid == '')
+            throw new Exception('No Section Id specified');
+
+        $strURI = Product::$baseProductUri . '/words/'.$filename.'/sections/'.$sectionid.'/pageSetup';
+        $signedURI = Utils::sign($strURI);
+
+        $responseStream = Utils::processCommand($signedURI, 'POST', 'XML', $options_xml,'json');
+
+        $json = json_decode($responseStream);
+
+        if ($json->Code == 200)
+            return $json->PageSetup;
+        else
+            return false;
+
+    }
+
+    /*
+     * get mail merge and mustache field names.
+     *
+     * $param string $filename.
+
+     * @return Object of Field Names.
+     * @throws Exception
+     */
+
+
+    public function getMailMergeFieldNames($filename = ''){
+
+        if ($filename == '')
+            throw new Exception('No file name specified');
+
+        $strURI = Product::$baseProductUri . '/words/'.$filename.'/mailMergeFieldNames';
+        $signedURI = Utils::sign($strURI);
+
+        $responseStream = Utils::processCommand($signedURI, 'GET','');
+
+        $json = json_decode($responseStream);
+
+        if ($json->Code == 200)
+            return $json->FieldNames;
+        else
+            return false;
+
+    }
+
+    /*
+     * get a list of all paragraphs present in a Word document.
+     *
+     * $param string $filename.
+
+     * @return Object of All Paragraphs.
+     * @throws Exception
+     */
+
+    public function getAllParagraphs($filename = ''){
+
+        if ($filename == '')
+            throw new Exception('No file name specified');
+
+        $strURI = Product::$baseProductUri . '/words/'.$filename.'/paragraphs';
+        $signedURI = Utils::sign($strURI);
+
+        $responseStream = Utils::processCommand($signedURI, 'GET','');
+
+        $json = json_decode($responseStream);
+
+        if ($json->Code == 200)
+            return $json->Paragraphs->ParagraphLinkList;
+        else
+            return false;
+
+    }
+
+    /*
+     * get specefic paragraphs present in a Word document.
+     *
+     * $param string $filename.
+     * $param string $paragraphid.
+
+     * @return Object of Specefic Paragraphs.
+     * @throws Exception
+     */
+
+    public function getParagraph($filename = '',$paragraphid = ''){
+
+        if ($filename == '')
+            throw new Exception('No file name specified');
+
+        if ($paragraphid == '')
+            throw new Exception('No Paragraph Id specified');
+
+        $strURI = Product::$baseProductUri . '/words/'.$filename.'/paragraphs/'.$paragraphid.'';
+        $signedURI = Utils::sign($strURI);
+
+        $responseStream = Utils::processCommand($signedURI, 'GET','');
+
+        $json = json_decode($responseStream);
+
+        if ($json->Code == 200)
+            return $json->Paragraph;
+        else
+            return false;
+
+    }
+
+    /*
+     * get any run of any paragraph from a Word document.
+     *
+     * $param string $filename.
+     * $param string $paragraphid.
+     * $param string $runid.
+
+     * @return Object of Specefic Run.
+     * @throws Exception
+     */
+
+    public function getParagraphRun($filename = '',$paragraphid = '',$runid = ''){
+
+        if ($filename == '')
+            throw new Exception('No file name specified');
+
+        if ($paragraphid == '')
+            throw new Exception('No Paragraph Id specified');
+
+        if ($runid == '')
+            throw new Exception('No Run Id specified');
+
+        $strURI = Product::$baseProductUri . '/words/'.$filename.'/paragraphs/'.$paragraphid.'/runs/'.$runid.'';
+        $signedURI = Utils::sign($strURI);
+
+        $responseStream = Utils::processCommand($signedURI, 'GET','');
+
+        $json = json_decode($responseStream);
+
+        if ($json->Code == 200)
+            return $json->Run;
+        else
+            return false;
+
+    }
+
+    /*
+     * get font information from any run of a paragraph.
+     *
+     * $param string $filename.
+     * $param string $paragraphid.
+     * $param string $runid.
+
+     * @return Object of Font.
+     * @throws Exception
+     */
+
+
+    public function getParagraphRunFont($filename = '',$paragraphid = '',$runid = ''){
+
+        if ($filename == '')
+            throw new Exception('No file name specified');
+
+        if ($paragraphid == '')
+            throw new Exception('No Paragraph Id specified');
+
+        if ($runid == '')
+            throw new Exception('No Run Id specified');
+
+        $strURI = Product::$baseProductUri . '/words/'.$filename.'/paragraphs/'.$paragraphid.'/runs/'.$runid.'/font';
+        $signedURI = Utils::sign($strURI);
+
+        $responseStream = Utils::processCommand($signedURI, 'GET','');
+
+        $json = json_decode($responseStream);
+
+        if ($json->Code == 200)
+            return $json->Font;
+        else
+            return false;
+
+    }
+
+    /*
+     * update font information from any run of a paragraph.
+     *
+     * $param string $options_xml.
+     * $param string $filename.
+     * $param string $paragraphid.
+     * $param string $runid.
+
+     * @return Object of Font.
+     * @throws Exception
+     */
+
+    public function updateParagraphRunFont($options_xml = '',$filename = '',$paragraphid = '',$runid = '') {
+
+        if ($options_xml == '')
+            throw new Exception('Options not specified.');
+
+        if ($filename == '')
+            throw new Exception('No file name specified');
+
+        if ($paragraphid == '')
+            throw new Exception('No Paragraph Id specified');
+
+        if ($runid == '')
+            throw new Exception('No Run Id specified');
+
+        $strURI = Product::$baseProductUri . '/words/'.$filename.'/paragraphs/'.$paragraphid.'/runs/'.$runid.'/font';
+        $signedURI = Utils::sign($strURI);
+
+        $responseStream = Utils::processCommand($signedURI, 'POST', 'XML', $options_xml,'json');
+
+        $json = json_decode($responseStream);
+
+        if ($json->Code == 200)
+            return $json->Font;
+        else
+            return false;
+
+    }
+
+
 }
