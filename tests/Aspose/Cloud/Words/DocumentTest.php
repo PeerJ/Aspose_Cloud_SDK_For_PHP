@@ -127,7 +127,7 @@ class DocumentTest extends PHPUnit_Framework_TestCase {
 
         $result = $document->saveAs($xml_string,'MainDocument.docx');
 
-        $this->assertTrue(true,$result);
+        $this->assertFileExists($result);
 
     }
 

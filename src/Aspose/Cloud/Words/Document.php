@@ -584,7 +584,7 @@ class Document {
      * $param string $options_xml.
      * @param string $inputPath.
 
-     * @return string Returns true, if file is saved on the specified output location.
+     * @return string Returns the file path.
      * @throws Exception
      */
 
@@ -617,7 +617,7 @@ class Document {
 
                 $output =  AsposeApp::$outPutLocation . basename($outputFile);
                 Utils::saveFile($responseStream,$output);
-                return true;
+                return $output;
             }
             else
                 return $v_output;
