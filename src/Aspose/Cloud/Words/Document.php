@@ -653,6 +653,33 @@ class Document {
 
     }
 
+
+    /*
+     * get a list of all sections present in a Word document.
+     *
+
+     * @return Array of all sections ids.
+     * @throws Exception
+     */
+
+    public function getAllSectionsAsIds()
+    {
+        if ($this->fileName == '') {
+            throw new Exception('Base file not specified');
+        }
+        
+        $sections = array();
+        if ($sectionsList = $this->getAllSections()) {
+            foreach($sectionsList as $sectionList) {
+                $href = $sectionList->link->Href;
+                $hrefItems = explode('/', $href);
+                $sections[] = $hrefItems[count($hrefItems) - 1];
+            }
+        }
+
+        return $sections;
+    }
+
     /*
      * get specefic section present in a Word document.
      *
@@ -971,6 +998,7 @@ class Document {
         }
 
         $strURI = Product::$baseProductUri . '/words/'.$this->fileName.'/headersFooters';
+        $strURI = $this->addFolderParamIfPresent($strURI);
         $signedURI = Utils::sign($strURI);
 
         $responseStream = Utils::processCommand($signedURI, 'DELETE', '');
